@@ -2,19 +2,30 @@ package com.graduation.letmegraduate
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.graduation.letmegraduate.databinding.ActivityLoginBinding
+import com.graduation.letmegraduate.databinding.ActivitySignupBinding
 
 class SignupActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
 
-        val actionbar = supportActionBar
-        
-        actionbar!!.setTitle(R.string.signup) // 액션바 제목을 '회원가입'으로 바꾸기
-        actionbar!!.setDisplayHomeAsUpEnabled(true) // 액션바에 뒤로가기 버튼 추가
+        val binding: ActivitySignupBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_signup)
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar) // 툴바를 액션바로 지정
+        val actionbar = getSupportActionBar()
+        actionbar!!.setDisplayShowTitleEnabled(false)
+        actionbar.setDisplayHomeAsUpEnabled(true) // 액션바에 뒤로가기 버튼 추가
+
+        val school_record = binding.schoolRecord
+        // dropdown menu에 표시할 항목들을 가져옴
+        val item : Array<String> = resources.getStringArray(R.array.dropdown_item)
+        // ArrayAdapter를 사용하여 dropdown menu에 항목들을 연결
+        val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,item)
+        school_record.setAdapter(adapter)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -23,4 +34,5 @@ class SignupActivity: AppCompatActivity() {
         startActivity(intent)
         return true
     }
+
 }

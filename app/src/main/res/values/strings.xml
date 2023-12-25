@@ -3,4 +3,8 @@
     <string name="id">학번</string>
     <string name="pw">비밀번호</string>
     <string name="signup">회원가입</string>
+    <string-array name="dropdown_item">
+        <item>컴퓨터공학부 주간</item>
+        <item>컴퓨터공학부 야간</item>
+    </string-array>
 </resources>
