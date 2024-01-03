@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.graduation.letmegraduate.databinding.ActivitySignupBinding
 
+
 class SignupActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,7 +16,7 @@ class SignupActivity: AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_signup)
 
         val toolbar = binding.toolbar
-        setSupportActionBar(toolbar) // 툴바를 액션바로 지정
+        setSupportActionBar(toolbar) //toolbar를 액션바로 지정
         val actionbar = getSupportActionBar()
         actionbar!!.setDisplayShowTitleEnabled(false)
         actionbar.setDisplayHomeAsUpEnabled(true) // 액션바에 뒤로가기 버튼 추가
@@ -34,5 +35,4 @@ class SignupActivity: AppCompatActivity() {
         startActivity(intent)
         return true
     }
-
 }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">letMeGraduate</string>
+    <string name="project_name">졸업시켜줄게</string>
     <string name="id">학번</string>
     <string name="pw">비밀번호</string>
     <string name="signup">회원가입</string>
@@ -7,4 +8,8 @@
         <item>컴퓨터공학부 주간</item>
         <item>컴퓨터공학부 야간</item>
     </string-array>
+    <string name="setting">설정</string>
+    <string name="withdrawal_message">
+        탈퇴 버튼 선택 시, 회원님의 계정은 삭제되며 복구되지 않습니다.
+    </string>
 </resources>

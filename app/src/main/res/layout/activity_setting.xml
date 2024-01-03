@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:id="@+id/toolbar">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_gravity="center">
+            </TextView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/noticeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:gravity="left"
+                android:text="공지사항"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="end"
+                app:iconTint="@color/black" />
+
+            <Button
+                android:id="@+id/withdrawalBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:gravity="left"
+                android:text="회원 탈퇴"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="end"
+                app:iconTint="@color/black" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
