@@ -24,4 +24,14 @@
     <string name="withdrawal_message">
         탈퇴 버튼 선택 시, 회원님의 계정은 삭제되며 복구되지 않습니다.
     </string>
+    <string name="ok">확인</string>
+    <string-array name="certificate_kind">
+        <item>TOIEC</item>
+        <item>TOEFL(IBT)</item>
+        <item>New TEPS</item>
+        <item>IELTS</item>
+        <item>TOEIC SPEAKING</item>
+        <item>TOEIC WRITING</item>
+        <item>OPIC</item>
+    </string-array>
 </resources>
