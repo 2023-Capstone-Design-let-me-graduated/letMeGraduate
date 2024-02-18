@@ -20,17 +20,18 @@ import java.io.IOException
 class SignupActivity: AppCompatActivity() {
     private lateinit var code: String
     private lateinit var email: String
+    private lateinit var id: String
+    private lateinit var pw: String
     private var authenticationStatus = false // authentication_status : 이메일 인증여부 확인을 위한 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivitySignupBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_signup)
+        val binding: ActivitySignupBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
 
         // Retrofit 객체 생성
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:3000")
+            .baseUrl("https://port-0-letmegraduated-server-17xco2nlspr2wdq.sel5.cloudtype.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -51,49 +52,42 @@ class SignupActivity: AppCompatActivity() {
 
         // (이메일) 인증하기 버튼 클릭 시
         binding.authenticationBtn.setOnClickListener {
-            if (!TextUtils.isEmpty(binding.email.text.toString())) {
-                email = binding.email.text.toString() + binding.domainName.text.toString()
-                apiService.emailAuthentication(email).enqueue(object: Callback<EmailResponse> {
-                    override fun onResponse(call: Call<EmailResponse>, response: retrofit2.Response<EmailResponse>) {
-                        if (response.isSuccessful) { // 서버와 응답에 성공한 경우
+            email = binding.email.text.toString() + binding.domainName.text.toString()
+            apiService.emailAuthentication(email).enqueue(object: Callback<EmailResponse> {
+                override fun onResponse(call: Call<EmailResponse>, response: retrofit2.Response<EmailResponse>) {
+                    if (response.isSuccessful) { // 서버와 응답에 성공한 경우
+                        AlertDialog.Builder(this@SignupActivity)
+                            .setMessage("입력하신 이메일로 인증코드를 전송하였습니다.\n인증코드를 입력해주세요")
+                            .setPositiveButton("확인", null)
+                            .show()
+
+                        binding.confrimAuthentication.visibility = View.VISIBLE // 인증코드 입력란 보이게 하기
+                        code = response.body()?.authenticationCode.toString()
+                    }
+                    binding.authenticationBtn.text = "인증코드 재전송"
+                }
+
+                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                    // 서버와 응답에 실패한 경우
+                    when(t) {
+                        is IOException -> {
                             AlertDialog.Builder(this@SignupActivity)
-                                .setMessage("입력하신 이메일로 인증코드를 전송하였습니다.\n인증코드를 입력해주세요")
+                                .setMessage("네트워크 연결이 불안정합니다.\n네트워크 연결 상태를 확인 후 다시 시도해주세요")
+                                .setPositiveButton("확인", null)
+                                .show()
+                        }
+                        is HttpException -> { // 404 error 등 오류가 발생한 경우
+                            AlertDialog.Builder(this@SignupActivity)
+                                .setMessage("오류가 발생했습니다. 다시 시도해주세요.")
                                 .setPositiveButton("확인", null)
                                 .show()
 
-                            binding.confrimAuthentication.visibility = View.VISIBLE // 인증코드 입력란 보이게 하기
-                            code = response.body()?.authenticationCode.toString()
-                        }
-                        binding.authenticationBtn.text = "인증코드 재전송"
-                    }
-
-                    override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
-                        // 서버와 응답에 실패한 경우
-                        when(t) {
-                            is IOException -> {
-                                AlertDialog.Builder(this@SignupActivity)
-                                    .setMessage("네트워크 연결이 불안정합니다.\n네트워크 연결 상태를 확인 후 다시 시도해주세요")
-                                    .setPositiveButton("확인", null)
-                                    .show()
-                            }
-                            is HttpException -> { // 404 error 등 오류가 발생한 경우
-                                AlertDialog.Builder(this@SignupActivity)
-                                    .setMessage("오류가 발생했습니다. 다시 시도해주세요.")
-                                    .setPositiveButton("확인", null)
-                                    .show()
-
-                                binding.authenticationBtn.text = "인증코드 재전송"
-                            }
+                            binding.authenticationBtn.text = "인증코드 재전송"
                         }
                     }
-                })
-            }
 
-            else {
-                // 이메일을 입력하지 않은 경우
-                Toast.makeText(applicationContext, "이메일을 입력한 후 다시 시도해주세요.",Toast.LENGTH_SHORT).show()
-            }
-
+                }
+            })
         }
 
         // (인증코드) 확인 버튼 클릭 시
@@ -115,32 +109,73 @@ class SignupActivity: AppCompatActivity() {
         val checked = Array(10){false}
         // 회원가입 버튼 클릭 시
         binding.signupBtn.setOnClickListener {
-            if(authenticationStatus) {
-                //이메일 인증을 완료했을 경우 재학학기 선택 팝업 띄우기
+            id = binding.signupId.text.toString()
+            pw = binding.signupPw.text.toString()
+
+            if(!TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw) && authenticationStatus) {
+                //재학학기 선택 팝업 띄우기
                 AlertDialog.Builder(this)
                     .setTitle("재학학기를 선택해주세요")
                     .setMultiChoiceItems(items,null) {_, which, isChecked ->
-                        // 선택된 항목을 배열에 저장
+                        // 항목의 선택 여부를 배열에 저장
                         checked[which] = isChecked
                     }
                     .setPositiveButton("확인") {_, _ ->
-                        val sb = StringBuffer()
-                        for (i in checked.indices) {
-                            if (checked[i]) {
-                                // 확인 버튼을 누르면 선택된 항목(재학학기)을 스트링 배열에 추가함
-                                sb.append("${items[i]}, ")
+                        if (checked.count { it } >= 8) {
+                            val list: MutableList<String> = mutableListOf()
+                            for (i in checked.indices) {
+                                if (checked[i]) {
+                                    // 선택된 항목(재학학기)을 배열에 추가함
+                                    val str = items[i].substring(0,4) + "_" + items[i].substring(6,7)
+                                    list.add(str)
+                                }
                             }
+
+                            val userData = Signup(id, pw, binding.schoolRecord.text.toString(), email, list)
+                            apiService.userSignup(userData).enqueue(object: Callback<Void> {
+                                override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
+                                    if (response.isSuccessful) { // 서버와 응답에 성공한 경우
+                                        Toast.makeText(applicationContext, "회원가입에 성공했습니다",
+                                            Toast.LENGTH_SHORT).show()
+                                        // 로그인 화면으로 이동
+                                        intent = Intent(this@SignupActivity, LoginActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                    else
+                                        Toast.makeText(applicationContext, "오류가 발생했습니다.\n" +
+                                                "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                                }
+
+                                override fun onFailure(call: Call<Void>, t: Throwable) {
+                                    // 서버와 응답에 실패한 경우
+                                    AlertDialog.Builder(this@SignupActivity)
+                                        .setMessage("회원가입에 실패했습니다.\n다시 시도해주세요.")
+                                        .setPositiveButton("확인", null)
+                                        .show()
+
+                                }
+                            })
                         }
+                        else
+                            Toast.makeText(applicationContext, "재학학기를 8개 선택해야 합니다.\n" +
+                                    "회원가입이 아직 완료되지 않았습니다.", Toast.LENGTH_SHORT).show()
                     }
                     .setNegativeButton("취소", null)
                     .setCancelable(false)
                     .show()
             }
             else {
-                AlertDialog.Builder(this)
-                    .setMessage("이메일이 인증되지 않았습니다.\n인증을 완료해주세요.")
-                    .setPositiveButton("확인", null)
-                    .show()
+                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(pw))
+                    AlertDialog.Builder(this)
+                        .setMessage("학번 또는 비밀번호를 입력하지 않았습니다.\n학번 또는 비밀번호를 입력해주세요.")
+                        .setPositiveButton("확인", null)
+                        .show()
+
+                else if(authenticationStatus)
+                    AlertDialog.Builder(this)
+                        .setMessage("이메일이 인증되지 않았습니다.\n인증을 완료해주세요.")
+                        .setPositiveButton("확인", null)
+                        .show()
             }
         }
     }
