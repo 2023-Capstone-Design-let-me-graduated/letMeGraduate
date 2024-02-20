@@ -3,22 +3,25 @@ package com.graduation.letmegraduate
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.graduation.letmegraduate.databinding.ActivitySignupBinding
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class SignupActivity: AppCompatActivity() {
-    private lateinit var code: String
+    private lateinit var authenticationCode: String
     private lateinit var email: String
     private lateinit var id: String
     private lateinit var pw: String
@@ -53,8 +56,10 @@ class SignupActivity: AppCompatActivity() {
         // (이메일) 인증하기 버튼 클릭 시
         binding.authenticationBtn.setOnClickListener {
             email = binding.email.text.toString() + binding.domainName.text.toString()
-            apiService.emailAuthentication(email).enqueue(object: Callback<EmailResponse> {
-                override fun onResponse(call: Call<EmailResponse>, response: retrofit2.Response<EmailResponse>) {
+            val emailData = Email(email)
+
+            apiService.emailAuthentication(emailData).enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
                     if (response.isSuccessful) { // 서버와 응답에 성공한 경우
                         AlertDialog.Builder(this@SignupActivity)
                             .setMessage("입력하신 이메일로 인증코드를 전송하였습니다.\n인증코드를 입력해주세요")
@@ -62,37 +67,40 @@ class SignupActivity: AppCompatActivity() {
                             .show()
 
                         binding.confrimAuthentication.visibility = View.VISIBLE // 인증코드 입력란 보이게 하기
-                        code = response.body()?.authenticationCode.toString()
+
+                        val str = response.body()!!.string()
+                        // JsonElement로 파싱함
+                        val jspnElement = JsonParser.parseString(str)
+                        // JsonElement를 문자열로 변환
+                        val jsonString = jspnElement.asString
+                        // Gson을 사용하여 JSON 문자열을 객체로 변환
+                        val jsonObject = Gson().fromJson(jsonString, JsonObject::class.java)
+                        // "secret" 키에 해당하는 값을 추출하여 변수(인증코드)에 저장
+                        authenticationCode = jsonObject.get("secret").asString
                     }
+                    else {
+                        Log.e("error","상태코드: ${response.code()}")
+                        Toast.makeText(applicationContext, "오류가 발생했습니다.\n다시 시도해주세요.",
+                            Toast.LENGTH_SHORT).show()
+                    }
+
                     binding.authenticationBtn.text = "인증코드 재전송"
                 }
 
-                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e("fail","${t.message}")
                     // 서버와 응답에 실패한 경우
-                    when(t) {
-                        is IOException -> {
-                            AlertDialog.Builder(this@SignupActivity)
-                                .setMessage("네트워크 연결이 불안정합니다.\n네트워크 연결 상태를 확인 후 다시 시도해주세요")
-                                .setPositiveButton("확인", null)
-                                .show()
-                        }
-                        is HttpException -> { // 404 error 등 오류가 발생한 경우
-                            AlertDialog.Builder(this@SignupActivity)
-                                .setMessage("오류가 발생했습니다. 다시 시도해주세요.")
-                                .setPositiveButton("확인", null)
-                                .show()
-
-                            binding.authenticationBtn.text = "인증코드 재전송"
-                        }
-                    }
-
+                    AlertDialog.Builder(this@SignupActivity)
+                        .setMessage("오류가 발생했습니다.\n다시 시도해주세요.")
+                        .setPositiveButton("확인", null)
+                        .show()
                 }
             })
         }
 
         // (인증코드) 확인 버튼 클릭 시
-        binding.confrimAuthentication.setOnClickListener {
-            if (binding.inputCode.text.toString() == code) {
+        binding.okBtn.setOnClickListener {
+            if (binding.inputCode.text.toString() == authenticationCode) {
                 // 사용자가 입력한 코드랑 인증코드가 일치하는 경우
                 authenticationStatus = true
                 Toast.makeText(applicationContext, "이메일이 인증되었습니다.",Toast.LENGTH_SHORT).show()
@@ -106,7 +114,7 @@ class SignupActivity: AppCompatActivity() {
         }
 
         val items = resources.getStringArray(R.array.semester)
-        val checked = Array(10){false}
+         val checked = Array(10){false}
         // 회원가입 버튼 클릭 시
         binding.signupBtn.setOnClickListener {
             id = binding.signupId.text.toString()
@@ -152,7 +160,6 @@ class SignupActivity: AppCompatActivity() {
                                         .setMessage("회원가입에 실패했습니다.\n다시 시도해주세요.")
                                         .setPositiveButton("확인", null)
                                         .show()
-
                                 }
                             })
                         }

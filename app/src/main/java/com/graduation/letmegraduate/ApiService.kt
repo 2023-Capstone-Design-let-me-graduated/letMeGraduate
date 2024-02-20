@@ -1,16 +1,15 @@
 package com.graduation.letmegraduate
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface ApiService {
-    @GET("/signup")
+    @POST("/signup/email")
     fun emailAuthentication(
-        @Query("email") email: String
-    ): Call<EmailResponse>
+        @Body email: Email
+    ): Call<ResponseBody>
     @POST("/signup")
     fun userSignup(
         @Body signup: Signup
@@ -21,8 +20,8 @@ interface ApiService {
     ): Call<Void>
 }
 
-data class EmailResponse(
-    val authenticationCode: String
+data class Email(
+    val email: String
 )
 data class Signup(
     val userid: String,
@@ -31,8 +30,7 @@ data class Signup(
     val email: String,
     val semester: List<String>
 )
-
 data class Login(
-    val userid: String,
-    val password: String
+    val password: String,
+    val userid: String
 )
