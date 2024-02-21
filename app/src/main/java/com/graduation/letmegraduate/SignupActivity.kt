@@ -19,6 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.URLEncoder
 
 class SignupActivity: AppCompatActivity() {
     private lateinit var authenticationCode: String
@@ -139,7 +140,8 @@ class SignupActivity: AppCompatActivity() {
                                 }
                             }
 
-                            val userData = Signup(id, pw, binding.schoolRecord.text.toString(), email, list)
+                            val encodedPw = URLEncoder.encode(pw, "UTF-8")
+                            val userData = Signup(id, encodedPw, binding.schoolRecord.text.toString(), email, list)
                             apiService.userSignup(userData).enqueue(object: Callback<Void> {
                                 override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
                                     if (response.isSuccessful) { // 서버와 응답에 성공한 경우

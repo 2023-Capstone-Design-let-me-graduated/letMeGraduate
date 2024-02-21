@@ -15,6 +15,7 @@ import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.CookieManager
+import java.net.URLEncoder
 
 class LoginActivity: AppCompatActivity() {
     private lateinit var intent: Intent
@@ -42,7 +43,8 @@ class LoginActivity: AppCompatActivity() {
             val id = binding.loginId.text.toString()
             val pw = binding.loginPw.text.toString()
             if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
-                apiService.userLogin(pw, id)
+                val encodedPw = URLEncoder.encode(pw, "UTF-8")
+                apiService.userLogin(encodedPw, id)
                     .enqueue(object: Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
                         if (response.isSuccessful) { // 서버와 응답에 성공한 경우
