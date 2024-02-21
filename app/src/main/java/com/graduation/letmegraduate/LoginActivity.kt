@@ -8,10 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.graduation.letmegraduate.databinding.ActivityLoginBinding
+import okhttp3.JavaNetCookieJar
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.CookieManager
 
 class LoginActivity: AppCompatActivity() {
     private lateinit var intent: Intent
@@ -21,20 +24,25 @@ class LoginActivity: AppCompatActivity() {
         val binding: ActivityLoginBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_login)
 
+        val client = OkHttpClient.Builder()
+            .cookieJar(JavaNetCookieJar(CookieManager()))
+            .build()
+
         // Retrofit 객체 생성
         val retrofit = Retrofit.Builder()
             .baseUrl("https://port-0-letmegraduated-server-17xco2nlspr2wdq.sel5.cloudtype.app/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
 
-
-        val data = Login(binding.loginId.text.toString(), binding.loginPw.text.toString())
         // 로그인 버튼 클릭시
         binding.loginBtn.setOnClickListener {
-            if (!TextUtils.isEmpty(binding.loginId.text.toString()) && !TextUtils.isEmpty(binding.loginPw.text.toString())) {
-                apiService.userLogin(data)
+            val id = binding.loginId.text.toString()
+            val pw = binding.loginPw.text.toString()
+            if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
+                apiService.userLogin(pw, id)
                     .enqueue(object: Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
                         if (response.isSuccessful) { // 서버와 응답에 성공한 경우
@@ -50,9 +58,10 @@ class LoginActivity: AppCompatActivity() {
                                 .setPositiveButton("확인", null)
                                 .show()
                         }
-                        else
+                        else {
                             Toast.makeText(applicationContext,
                                 "오류가 발생했습니다.\n다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
@@ -75,6 +84,5 @@ class LoginActivity: AppCompatActivity() {
             intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
-
     }
 }

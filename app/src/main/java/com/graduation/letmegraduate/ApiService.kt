@@ -3,6 +3,8 @@ package com.graduation.letmegraduate
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiService {
@@ -14,9 +16,11 @@ interface ApiService {
     fun userSignup(
         @Body signup: Signup
     ): Call<Void>
+    @FormUrlEncoded
     @POST("/login")
     fun userLogin(
-        @Body login: Login
+        @Field("password") password: String,
+        @Field("username") username: String
     ): Call<Void>
 }
 
@@ -30,7 +34,4 @@ data class Signup(
     val email: String,
     val semester: List<String>
 )
-data class Login(
-    val password: String,
-    val userid: String
-)
+
