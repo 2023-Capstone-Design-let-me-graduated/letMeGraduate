@@ -27,6 +27,31 @@ class SettingActivity : AppCompatActivity() {
         actionbar!!.setDisplayShowTitleEnabled(false)
         actionbar.setDisplayHomeAsUpEnabled(true) // 액션바에 뒤로가기 버튼 추가
 
+        // 로그아웃 버튼 클릭 시
+        binding.logoutBtn.setOnClickListener {
+            service.userLogout().enqueue(object: Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) { // 서버와 응답에 성공한 경우
+                        // 로그인 화면으로 이동
+                        intent = Intent(this@SettingActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else {
+                        Log.e("err","상태코드: ${response.code()}")
+                        Toast.makeText(applicationContext,
+                            "오류가 발생했습니다.\n다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    // 서버와 응답에 실패한 경우
+                    Log.e("fail","${t.message}")
+                    Toast.makeText(applicationContext,
+                        "오류가 발생했습니다.2\n다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+
         // 탈퇴 버튼 클릭 시
         binding.withdrawalBtn.setOnClickListener {
             // 탈퇴 여부 묻는 팝업 띄우기

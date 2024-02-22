@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -23,6 +24,8 @@ interface ApiService {
         @Field("password") password: String,
         @Field("username") username: String
     ): Call<Void>
+    @GET("/logout")
+    fun userLogout(): Call<Void>
     @DELETE("/user")
     fun userDelete(): Call<Void>
 }
