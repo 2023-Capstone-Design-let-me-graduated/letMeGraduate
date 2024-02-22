@@ -3,6 +3,7 @@ package com.graduation.letmegraduate
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -22,6 +23,8 @@ interface ApiService {
         @Field("password") password: String,
         @Field("username") username: String
     ): Call<Void>
+    @DELETE("/user")
+    fun userDelete(): Call<Void>
 }
 
 data class Email(
@@ -34,4 +37,5 @@ data class Signup(
     val email: String,
     val semester: List<String>
 )
+
 

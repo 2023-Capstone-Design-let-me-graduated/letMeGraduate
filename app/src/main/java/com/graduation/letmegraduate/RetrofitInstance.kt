@@ -1,0 +1,24 @@
+package com.graduation.letmegraduate
+
+import okhttp3.JavaNetCookieJar
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.net.CookieManager
+
+object RetrofitInstance {
+    private val client = OkHttpClient.Builder()
+        .cookieJar(JavaNetCookieJar(CookieManager()))
+        .build()
+
+    // Retrofit 객체 생성
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://port-0-letmegraduated-server-17xco2nlswrug2s.sel5.cloudtype.app/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
+        .build()
+
+    val apiService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}

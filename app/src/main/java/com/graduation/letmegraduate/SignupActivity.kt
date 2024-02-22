@@ -13,12 +13,11 @@ import androidx.databinding.DataBindingUtil
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.graduation.letmegraduate.RetrofitInstance.apiService
 import com.graduation.letmegraduate.databinding.ActivitySignupBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.net.URLEncoder
 
 class SignupActivity: AppCompatActivity() {
@@ -33,13 +32,7 @@ class SignupActivity: AppCompatActivity() {
 
         val binding: ActivitySignupBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
 
-        // Retrofit 객체 생성
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://port-0-letmegraduated-server-17xco2nlspr2wdq.sel5.cloudtype.app/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService = retrofit.create(ApiService::class.java)
+        val service = apiService
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar) //toolbar를 액션바로 지정
@@ -59,7 +52,7 @@ class SignupActivity: AppCompatActivity() {
             email = binding.email.text.toString() + binding.domainName.text.toString()
             val emailData = Email(email)
 
-            apiService.emailAuthentication(emailData).enqueue(object : Callback<ResponseBody> {
+            service.emailAuthentication(emailData).enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
                     if (response.isSuccessful) { // 서버와 응답에 성공한 경우
                         AlertDialog.Builder(this@SignupActivity)
@@ -180,7 +173,7 @@ class SignupActivity: AppCompatActivity() {
                         .setPositiveButton("확인", null)
                         .show()
 
-                else if(authenticationStatus)
+                else if(!authenticationStatus)
                     AlertDialog.Builder(this)
                         .setMessage("이메일이 인증되지 않았습니다.\n인증을 완료해주세요.")
                         .setPositiveButton("확인", null)

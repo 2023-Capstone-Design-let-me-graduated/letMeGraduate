@@ -8,13 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.graduation.letmegraduate.databinding.ActivityLoginBinding
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.net.CookieManager
 import java.net.URLEncoder
 
 class LoginActivity: AppCompatActivity() {
@@ -25,18 +20,7 @@ class LoginActivity: AppCompatActivity() {
         val binding: ActivityLoginBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-        val client = OkHttpClient.Builder()
-            .cookieJar(JavaNetCookieJar(CookieManager()))
-            .build()
-
-        // Retrofit 객체 생성
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://port-0-letmegraduated-server-17xco2nlspr2wdq.sel5.cloudtype.app/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-
-        val apiService = retrofit.create(ApiService::class.java)
+        val service = RetrofitInstance.apiService
 
         // 로그인 버튼 클릭시
         binding.loginBtn.setOnClickListener {
@@ -44,7 +28,7 @@ class LoginActivity: AppCompatActivity() {
             val pw = binding.loginPw.text.toString()
             if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(pw)) {
                 val encodedPw = URLEncoder.encode(pw, "UTF-8")
-                apiService.userLogin(encodedPw, id)
+                service.userLogin(encodedPw, id)
                     .enqueue(object: Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
                         if (response.isSuccessful) { // 서버와 응답에 성공한 경우
