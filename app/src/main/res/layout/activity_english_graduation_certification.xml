@@ -25,7 +25,8 @@
                 android:text="영어자격증 종류"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -42,9 +43,11 @@
                     android:id="@+id/certificate_kind"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TOEIC"
+                    android:text="================"
                     android:inputType="none"
-                    tools:ignore="LabelFor,VisualLintTextFieldSize" />
+
+                    android:gravity="center"
+                    tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +60,8 @@
                 android:text="영어자격증 점수"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -72,6 +76,7 @@
                     android:id="@+id/certificate_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

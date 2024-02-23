@@ -26,9 +26,9 @@
     </string>
     <string name="ok">확인</string>
     <string-array name="certificate_kind">
-        <item>TOIEC</item>
-        <item>TOEFL(IBT)</item>
-        <item>New TEPS</item>
+        <item>TOEIC</item>
+        <item>TOEFL</item>
+        <item>NEW TEPS</item>
         <item>IELTS</item>
         <item>TOEIC SPEAKING</item>
         <item>TOEIC WRITING</item>

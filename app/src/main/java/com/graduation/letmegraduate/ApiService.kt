@@ -24,6 +24,10 @@ interface ApiService {
         @Field("password") password: String,
         @Field("username") username: String
     ): Call<Void>
+    @POST("/exam")
+    fun exam(
+        @Body exam: Exam
+    ): Call<ExamResponse>
     @GET("/logout")
     fun userLogout(): Call<Void>
     @DELETE("/user")
@@ -33,12 +37,23 @@ interface ApiService {
 data class Email(
     val email: String
 )
+
 data class Signup(
     val userid: String,
     val password: String,
     val major: String,
     val email: String,
     val semester: List<String>
+)
+
+data class Exam(
+    val testType: String,
+    val score: String
+)
+
+data class ExamResponse(
+    val check: Boolean,
+    val condition: List<*>
 )
 
 
