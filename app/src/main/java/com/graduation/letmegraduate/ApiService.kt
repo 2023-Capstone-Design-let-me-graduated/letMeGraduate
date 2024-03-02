@@ -8,6 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface ApiService {
     @POST("/signup/email")
@@ -28,6 +29,10 @@ interface ApiService {
     fun exam(
         @Body exam: Exam
     ): Call<ExamResponse>
+    @PUT("/normal")
+    fun putCredit(
+        @Body generalElectivieCredit: GeneralElectivieCredit
+    ): Call<Void>
     @GET("/logout")
     fun userLogout(): Call<Void>
     @DELETE("/user")
@@ -55,5 +60,10 @@ data class ExamResponse(
     val check: Boolean,
     val condition: List<*>
 )
+
+data class GeneralElectivieCredit(
+    val score: Int
+)
+
 
 
