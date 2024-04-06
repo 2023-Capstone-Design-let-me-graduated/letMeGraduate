@@ -20,6 +20,7 @@
         <item>2023년 1학기</item>
         <item>2023년 2학기</item>
     </string-array>
+    <string name="major">전공</string>
     <string name="setting">설정</string>
     <string name="withdrawal_message">
         탈퇴 버튼 선택 시, 회원님의 계정은 삭제되며 복구되지 않습니다.

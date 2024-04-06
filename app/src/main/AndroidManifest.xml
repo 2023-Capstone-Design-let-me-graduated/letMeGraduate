@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LetMeGraduate"
         tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:windowSoftInputMode ="adjustNothing">
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -28,10 +29,15 @@
             android:exported="true"/>
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".MajorActivity"
             android:exported="true"/>
         <activity
             android:name=".GeneralElectiveActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".SettingActivity"
             android:exported="true"/>
