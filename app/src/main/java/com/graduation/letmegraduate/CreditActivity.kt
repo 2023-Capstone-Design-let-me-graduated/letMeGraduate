@@ -24,6 +24,18 @@ class CreditActivity : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.majorBtn.setOnClickListener {
+            // 화면 이동
+            intent = Intent(activity, MajorActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.liberalArisBtn.setOnClickListener {
+            // 화면 이동
+            intent = Intent(activity, LiberalArtsActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.generalElectiveBtn.setOnClickListener {
             // 화면 이동
             intent = Intent(activity, GeneralElectiveActivity::class.java)

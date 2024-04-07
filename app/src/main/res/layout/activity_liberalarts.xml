@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:id="@+id/toolbar">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/liberalarts"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_gravity="center">
+            </TextView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/white"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue">
+
+                <AutoCompleteTextView
+                    android:id="@+id/list_semester"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="수강학기 선택"
+                    android:inputType="none"
+                    android:gravity="center"
+                    tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/noticeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/layout_stroke"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/noticeMassage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText">
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+            <Button
+                android:id="@+id/okBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:text="수강한 모든 교양 과목 선택 완료"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/blue"
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="교양선택"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText">
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/minor_credit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:hint="취득한 학점 입력"
+                    tools:ignore="HardcodedText,SpeakableTextPresentCheck,TextContrastCheck,VisualLintTextFieldSize" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:text="교양필수"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText">
+            </TextView>
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/layout_stroke"
+                tools:ignore="VisualLintBounds">
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:orientation="vertical">
+
+                    <TableRow
+                        android:background="@color/gray"
+                        tools:ignore="UselessParent">
+
+                        <TextView
+                            android:layout_width="38dp"
+                            android:layout_height="55dp"
+                            android:text="수강여부"
+                            tools:ignore="HardcodedText,VisualLintBounds,TextSizeCheck" />
+
+                        <TextView
+                            android:layout_width="67dp"
+                            android:layout_height="40dp"
+                            android:text="학년"
+                            android:gravity="center|start"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="125dp"
+                            android:layout_height="40dp"
+                            android:text="이수구분"
+                            tools:ignore="HardcodedText,RtlHardcoded" />
+
+
+                        <TextView
+                            android:layout_width="250dp"
+                            android:layout_height="40dp"
+                            android:text="교과목명"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="33dp"
+                            android:layout_height="40dp"
+                            android:text="학점"
+                            tools:ignore="HardcodedText" />
+                    </TableRow>
+                </TableLayout>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </TableLayout>
+                </ScrollView>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+    </LinearLayout>
+</layout>

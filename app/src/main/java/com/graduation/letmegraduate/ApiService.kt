@@ -36,6 +36,14 @@ interface ApiService {
     fun majorput(
         @Body selectedMajorSubjects: SelectedMajorSubjects
     ): Call<JsonObject>
+    @POST("/minor/semester")
+    fun getLASubjectsList(
+        @Body selesctedSemester: SelesctedSemester
+    ): Call<JsonObject>
+    @PUT("/minor")
+    fun putSelectedLASubjects(
+        @Body selectedLASubjects: SelectedLASubjects
+    ): Call<JsonObject>
     @PUT("/normal")
     fun putCredit(
         @Body generalElectivieCredit: GeneralElectivieCredit
@@ -75,6 +83,11 @@ data class SelectedMajorSubjects(
     val list: List<*>
 )
 
+data class SelectedLASubjects(
+    val list: List<*>,
+    val sScore: Int
+)
+
 data class GeneralElectivieCredit(
     val score: Int
 )
@@ -88,6 +101,7 @@ data class ExamResponse(
     val check: Boolean,
     val condition: List<*>
 )
+
 
 
 

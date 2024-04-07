@@ -35,6 +35,9 @@
             android:name=".MajorActivity"
             android:exported="true"/>
         <activity
+            android:name=".LiberalArtsActivity"
+            android:exported="true"/>
+        <activity
             android:name=".GeneralElectiveActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing"/>
