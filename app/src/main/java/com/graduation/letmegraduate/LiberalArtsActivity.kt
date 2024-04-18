@@ -76,6 +76,10 @@ class LiberalArtsActivity: AppCompatActivity() {
                             }
                             binding.minorCredit.text = null
 
+                            binding.scrollView.post {
+                                binding.scrollView.scrollTo(0, 0)
+                            }
+
                             val selectSemester = parent?.getItemAtPosition(position).toString()
                             val data = SelesctedSemester(selectSemester)
 
@@ -90,7 +94,7 @@ class LiberalArtsActivity: AppCompatActivity() {
                                 ) {
                                     if (response.isSuccessful) {
                                         binding.layout.visibility = View.VISIBLE
-                                        binding.scrollView.visibility = View.VISIBLE
+                                        binding.subjectListView.visibility = View.VISIBLE
 
                                         liberalArtsSubjectList.clear()
                                         val lafoundamentalList = response.body()?.get("foundamental")
@@ -131,12 +135,13 @@ class LiberalArtsActivity: AppCompatActivity() {
                                             // 버튼을 TableRow에 추가
                                             tableRow.addView(button)
 
+                                            var tmp = ""
                                             for ((key, value) in map) {
                                                 when (key) {
-                                                    "grade", "c_area", "credit", "sub_name" -> {
+                                                    "grade", "c_area", "credit"-> {
                                                         // 공백을 추가하는 TextView 생성
                                                         val spaceTextView = TextView(this@LiberalArtsActivity)
-                                                        spaceTextView.text = "      "
+                                                        spaceTextView.text = "    "
 
                                                         val textView =
                                                             TextView(this@LiberalArtsActivity)
@@ -147,8 +152,26 @@ class LiberalArtsActivity: AppCompatActivity() {
                                                         tableRow.addView(spaceTextView)
                                                         tableRow.addView(textView)
                                                     }
+                                                    "sub_name" -> {
+                                                        tmp = value.toString()
+                                                    }
                                                 }
                                             }
+                                            // "sub_name"의 값이 tableRow에서 마지막에 오도록 함
+                                            if (!tmp.isEmpty()) {
+                                                // 공백을 추가하는 TextView 생성
+                                                val spaceTextView = TextView(this@LiberalArtsActivity)
+                                                spaceTextView.text = "       "
+
+                                                val textView = TextView(this@LiberalArtsActivity)
+                                                textView.text = tmp
+
+
+                                                // TableRow에 공백 TextView와 TextView를 번갈아가며 추가
+                                                tableRow.addView(spaceTextView)
+                                                tableRow.addView(textView)
+                                            }
+
                                             // 테이블 레이아웃에 TableRow 추가
                                             tableLayout.addView(tableRow)
 
@@ -161,8 +184,6 @@ class LiberalArtsActivity: AppCompatActivity() {
                                                     if ( cnt == 1 )
                                                         count += cnt
 
-                                                    val message = "현재 수강한 교양 과목을 선택한 학기: $count/${semesterList.size}"
-                                                    binding.textView.text = message
                                                 } else {
                                                     selectedRows.remove(map)
 
@@ -170,6 +191,8 @@ class LiberalArtsActivity: AppCompatActivity() {
                                                     if (cnt == 0)
                                                         count--
                                                 }
+                                                val message = "현재 수강한 교양 과목을 선택한 학기: $count/${semesterList.size}"
+                                                binding.textView.text = message
                                             }
                                         }
                                     } else

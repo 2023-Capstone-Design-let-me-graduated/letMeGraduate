@@ -72,6 +72,10 @@ class MajorActivity: AppCompatActivity() {
                             position: Int,
                             id: Long,
                         ) {
+                            binding.scrollView.post {
+                                binding.scrollView.scrollTo(0, 0)
+                            }
+
                             val selectSemester = parent?.getItemAtPosition(position).toString()
 
                             val data = SelesctedSemester(selectSemester)
@@ -84,7 +88,7 @@ class MajorActivity: AppCompatActivity() {
                                 ) {
                                     if (response.isSuccessful) {
                                         binding.layout.visibility = View.VISIBLE
-                                        binding.scrollView.visibility = View.VISIBLE
+                                        binding.subjectListView.visibility = View.VISIBLE
 
                                         majorSubjectList.clear()
 
@@ -107,7 +111,7 @@ class MajorActivity: AppCompatActivity() {
                                                 for ((key, value) in jsonObject) {
                                                     val newValue =
                                                         if ((key == "grade" || key == "credit") && value is Double) {
-                                                        value.toInt()
+                                                            value.toInt()
                                                         } else {
                                                             value
                                                         }
@@ -128,13 +132,14 @@ class MajorActivity: AppCompatActivity() {
                                             // 버튼을 TableRow에 추가
                                             tableRow.addView(button)
 
+                                            var tmp = ""
                                             for ((key, value) in map) {
                                                 when (key) {
-                                                    "grade", "c_major", "sub_name", "credit" -> {
+                                                    "grade", "c_major", "credit" -> {
 
                                                         // 공백을 추가하는 TextView 생성
                                                         val spaceTextView = TextView(this@MajorActivity)
-                                                        spaceTextView.text = "    "
+                                                        spaceTextView.text = "     "
 
                                                         val textView = TextView(this@MajorActivity)
                                                         textView.text = value.toString()
@@ -143,10 +148,27 @@ class MajorActivity: AppCompatActivity() {
                                                         // TableRow에 공백 TextView와 TextView를 번갈아가며 추가
                                                         tableRow.addView(spaceTextView)
                                                         tableRow.addView(textView)
-
+                                                    }
+                                                    "sub_name" -> {
+                                                        tmp = value.toString()
                                                     }
                                                 }
                                             }
+                                            // key가 "sub_name"인 값(value)이 tableRow에서 마지막에 오도록 함
+                                            if (!tmp.isEmpty()) {
+                                                // 공백을 추가하는 TextView 생성
+                                                val spaceTextView = TextView(this@MajorActivity)
+                                                spaceTextView.text = "     "
+
+                                                val textView = TextView(this@MajorActivity)
+                                                textView.text = tmp
+
+
+                                                // TableRow에 공백 TextView와 TextView를 번갈아가며 추가
+                                                tableRow.addView(spaceTextView)
+                                                tableRow.addView(textView)
+                                            }
+
                                             // tableLayout에 TableRow 추가
                                             tableLayout.addView(tableRow)
 
@@ -154,13 +176,13 @@ class MajorActivity: AppCompatActivity() {
                                             button.setOnCheckedChangeListener { _, isChecked ->
                                                 if (isChecked) {
                                                     selectedRows.add(map)
+                                                    Log.d("Tets", map.toString())
 
                                                     cnt++
                                                     if ( cnt == 1 )
                                                         count += cnt
 
                                                     val message = "현재 수강한 전공 과목을 선택한 학기: $count/${semesterList.size}"
-                                                    Log.d("test", map.toString())
                                                     binding.textView.text = message
                                                 } else {
                                                     selectedRows.remove(map)
@@ -190,7 +212,8 @@ class MajorActivity: AppCompatActivity() {
                                                     response: Response<JsonObject>,
                             ) {
                                 if (response.isSuccessful){
-                                    val mRequirementSatisfacionStatus = response.body()?.get("checkState")?.asBoolean
+                                    val mRequirementSatisfacionStatus = response.body()?.get("state")?.asBoolean
+                                    val mCreditRSS = response.body()?.get("checkState")?.asBoolean
                                     val csSubjectRegistrationStatus = response.body()?.get("capstoneState")?.asBoolean
                                     val majorCredit = response.body()!!.get("m_score")?.asInt
                                     val mnRequirementSatisfacionStatus = response.body()?.get("m_need_checkState")?.asBoolean
@@ -205,8 +228,8 @@ class MajorActivity: AppCompatActivity() {
                                                 append(" ○ 캡스톤디지인(1), 캡스톤디자인(2) 과목은 필수로 수강해야 합니다.")
                                                 append("\n\n")
                                             }
-                                            if (majorCredit!! < 72){
-                                                append(" ○ 최소 이수 학점까지 남은 전공 학점: ${72 - majorCredit}")
+                                            if (!mCreditRSS!!){
+                                                append(" ○ 최소 이수 학점까지 남은 전공 학점: ${72 - majorCredit!!}")
                                                 append("\n\n")
 
                                             }

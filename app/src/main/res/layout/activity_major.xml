@@ -104,20 +104,17 @@
                 android:layout_marginBottom="20dp"
                 tools:ignore="HardcodedText"/>
 
-    </LinearLayout>
-    <HorizontalScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp">
-
+        </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/subjectListView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical"
-            android:background="@drawable/layout_stroke">
+            android:background="@drawable/layout_stroke"
+            android:visibility="invisible">
 
             <TableLayout
                 android:layout_width="wrap_content"
@@ -132,42 +129,46 @@
                     tools:ignore="UselessParent">
 
                     <TextView
-                        android:layout_width="28dp"
+                        android:layout_width="30dp"
                         android:layout_height="55dp"
-                        android:gravity="center"
                         android:text="수강여부"
+                        android:gravity="center"
                         tools:ignore="HardcodedText,VisualLintBounds,TextSizeCheck" />
 
                     <TextView
-                        android:layout_width="64dp"
+                        android:layout_width="67dp"
                         android:layout_height="45dp"
                         android:text="학년"
                         android:gravity="center"
                         tools:ignore="HardcodedText" />
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="68dp"
                         android:layout_height="45dp"
                         android:text="이수구분"
+                        android:gravity="center"
                         tools:ignore="HardcodedText,TextSizeCheck,VisualLintBounds" />
-
-                    <TextView
-                        android:layout_width="180dp"
-                        android:layout_height="45dp"
-                        android:text="교과목명"
-                        tools:ignore="HardcodedText,VisualLintBounds" />
 
                     <TextView
                         android:layout_width="40dp"
                         android:layout_height="45dp"
+                        android:gravity="center|start"
                         android:text="학점"
-                        android:gravity="center"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="190dp"
+                        android:layout_height="45dp"
+                        android:text="교과목명"
+                        android:gravity="center|start"
+                        tools:ignore="HardcodedText,VisualLintBounds" />
+
                 </TableRow>
             </TableLayout>
 
             <ScrollView
-                android:layout_width="wrap_content"
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="SpeakableTextPresentCheck">
 
@@ -179,6 +180,5 @@
                 </TableLayout>
             </ScrollView>
         </LinearLayout>
-    </HorizontalScrollView>
-</LinearLayout>
+    </LinearLayout>
 </layout>
