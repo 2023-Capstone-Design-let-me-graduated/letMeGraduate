@@ -26,6 +26,12 @@ interface ApiService {
         @Field("password") password: String,
         @Field("username") username: String
     ): Call<Void>
+    @GET("/main")
+    fun getData(): Call<JsonObject>
+    @PUT("/main")
+    fun putApplicationStatus(
+        @Body applicationStatus: ApplicationStatus
+    ): Call<Void>
     @GET("/major/semester")
     fun getSemesterList(): Call<GetSemesterListResponse>
     @POST("/major/semester")
@@ -69,6 +75,10 @@ data class Signup(
     val major: String,
     val email: String,
     val semester: List<String>
+)
+
+data class ApplicationStatus(
+    val engcheck: Boolean
 )
 
 data class GetSemesterListResponse(
