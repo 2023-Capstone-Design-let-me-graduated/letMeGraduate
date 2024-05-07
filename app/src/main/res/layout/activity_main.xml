@@ -43,13 +43,14 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_gray"
+                android:background="@color/white"
                 android:layout_alignParentBottom = "true"
-                app:tabTextColor="@color/gray"
+                android:elevation="6dp"
+                app:tabTextColor="#96999C"
                 app:tabSelectedTextColor="@color/black"
                 app:tabIndicatorColor="@color/white"
-                app:tabRippleColor="@color/light_gray"
-                app:tabIconTint="@color/gray"
+                app:tabRippleColor="@color/white"
+                app:tabIconTint="#96999C"
                 tools:ignore="SpeakableTextPresentCheck">
             </com.google.android.material.tabs.TabLayout>
         </RelativeLayout>

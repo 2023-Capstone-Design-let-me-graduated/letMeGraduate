@@ -1,6 +1,7 @@
 package com.graduation.letmegraduate
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -28,13 +29,16 @@ class MainActivity : AppCompatActivity() {
 
         // 스와이프로 화면 전환할 수 없게 하기
         viewPager.isUserInputEnabled = false
-        
+
         viewPager.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
 
         // TabLayout과 ViewPager를 연동
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
-                0 -> tab.setIcon(R.drawable.ic_home)
+                0 -> {
+                    tab.setIcon(R.drawable.ic_home)
+                    tab.text = "홈"
+                }
                 1 -> {
                     tab.setIcon(R.drawable.ic_create)
                     tab.text = "학점"
@@ -58,11 +62,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
                 // 선택이 해제된 탭의 아이콘 색을 원래 색으로 변경
-                tab.icon?.setTint(getColor(R.color.gray))
+                tab.icon?.setTint(Color.parseColor("#96999C"))
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                // 재선택된 탭의 경우 추가적인 동작 수행 가능
+            override fun onTabReselected(tab: TabLayout.Tab) { // 재선택된 탭의 경우 추가적인 동작 수행 가능
+                TODO("Not yet implemented")
             }
         })
     }
