@@ -105,7 +105,8 @@
                 android:text="학적"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -123,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:text="컴퓨터공학부 주간"
                     android:inputType="none"
-                    tools:ignore="LabelFor,VisualLintTextFieldSize" />
+                    tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -135,7 +136,8 @@
                 android:text="이메일"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
 
             <LinearLayout
@@ -165,12 +167,13 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="6dp"
                     android:text="\u0040inu.ac.kr"
                     android:textColor="@color/black"
-                    android:textSize="23sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    tools:ignore="TextSizeCheck"></TextView>
+                    tools:ignore="HardcodedText,TextSizeCheck">
+                </TextView>
 
                 <Button
                     style="?attr/materialButtonOutlinedStyle"
@@ -182,7 +185,8 @@
                     android:layout_marginEnd="30dp"
                     android:text="인증하기"
                     android:textColor="@color/black"
-                    app:strokeColor="@color/blue" />
+                    app:strokeColor="@color/blue"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
@@ -202,7 +206,8 @@
                     android:layout_marginStart="30dp"
                     app:boxStrokeColor="@color/blue"
                     app:hintTextColor="@color/gray"
-                    android:hint="인증코드 입력">
+                    android:hint="인증코드 입력"
+                    tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputCode"
@@ -222,7 +227,8 @@
                     android:layout_marginEnd="30dp"
                     android:text="인증 확인"
                     android:textColor="@color/black"
-                    app:strokeColor="@color/blue" />
+                    app:strokeColor="@color/blue"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
         </LinearLayout>
 
@@ -243,7 +249,8 @@
                 android:text="@string/signup"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/blue"
-                tools:ignore="VisualLintButtonSize" />
+                app:cornerRadius="9dp"
+                tools:ignore="VisualLintButtonSize,DuplicateSpeakableTextCheck" />
 
         </LinearLayout>
 

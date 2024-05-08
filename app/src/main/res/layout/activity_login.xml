@@ -25,7 +25,7 @@
                 android:layout_marginBottom="30dp"
                 android:layout_weight="1"
                 android:src="@drawable/inu_logo"
-                tools:ignore="ContentDescription,NestedWeights" />
+                tools:ignore="ContentDescription,InefficientWeight,NestedWeights" />
 
         </LinearLayout>
 
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/id"
                     android:inputType="number"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/pw"
                     android:inputType="textPassword"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,7 +86,7 @@
                 android:layout_marginTop="5dp"
                 android:checked="false"
                 android:text="자동 로그인"
-                tools:ignore="RtlHardcoded,TouchTargetSizeCheck" />
+                tools:ignore="HardcodedText,RtlHardcoded,TouchTargetSizeCheck" />
 
         </LinearLayout>
 
@@ -95,7 +95,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-
 
             <Button
                 android:id="@+id/loginBtn"
@@ -106,7 +105,9 @@
                 android:layout_marginEnd="30dp"
                 android:text="로그인"
                 android:textColor="@color/white"
-                app:backgroundTint="@color/blue" />
+                app:backgroundTint="@color/blue"
+                app:cornerRadius="9dp"
+                tools:ignore="HardcodedText,VisualLintButtonSize" />
 
             <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
@@ -119,7 +120,9 @@
                 android:layout_marginEnd="30dp"
                 android:text="@string/signup"
                 android:textColor="@color/black"
-                app:strokeColor="@color/blue" />
+                app:strokeColor="@color/blue"
+                app:cornerRadius="9dp"
+                tools:ignore="VisualLintButtonSize" />
 
         </LinearLayout>
 
