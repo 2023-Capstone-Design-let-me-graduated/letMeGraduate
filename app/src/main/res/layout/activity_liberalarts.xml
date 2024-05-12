@@ -51,9 +51,12 @@
                     android:id="@+id/list_semester"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
                     android:text="수강학기 선택"
                     android:inputType="none"
                     android:gravity="center"
+                    app:dropDownBackgroundTint="@color/white"
+                    android:textColorHighlight="@color/white"
                     tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -112,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:text="교양선택"
+                android:text="∘ 교양선택"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -143,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
-                android:text="교양필수"
+                android:text="∘ 교양필수"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
