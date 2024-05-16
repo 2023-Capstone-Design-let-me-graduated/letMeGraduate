@@ -51,7 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/id"
-                    android:inputType="number"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +64,8 @@
                 android:layout_marginEnd="30dp"
                 app:boxStrokeColor="@color/blue"
                 app:hintTextColor="@color/blue"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleDrawable="@drawable/toggle_icon_status">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loginPw"
@@ -101,6 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:text="로그인"

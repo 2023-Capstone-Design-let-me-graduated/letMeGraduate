@@ -85,7 +85,8 @@
                 android:layout_marginEnd="30dp"
                 app:boxStrokeColor="@color/blue"
                 app:hintTextColor="@color/blue"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleDrawable="@drawable/toggle_icon_status">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/signupPw"
@@ -124,6 +125,9 @@
                     android:layout_height="wrap_content"
                     android:text="컴퓨터공학부 주간"
                     android:inputType="none"
+                    android:backgroundTint="@color/white"
+                    android:textColorHighlight="@color/white"
+                    app:dropDownBackgroundTint="@color/white"
                     tools:ignore="HardcodedText,LabelFor,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,7 +161,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
-                        android:layout_height="46dp"
+                        android:layout_height="55dp"
                         tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -178,11 +182,10 @@
                 <Button
                     style="?attr/materialButtonOutlinedStyle"
                     android:id="@+id/authenticationBtn"
-                    android:layout_width="101dp"
+                    android:layout_width="103dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="30dp"
                     android:text="인증하기"
                     android:textColor="@color/black"
                     app:strokeColor="@color/blue"
@@ -205,14 +208,14 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="30dp"
                     app:boxStrokeColor="@color/blue"
-                    app:hintTextColor="@color/gray"
-                    android:hint="인증코드 입력"
+                    app:hintTextColor="@color/blue"
                     tools:ignore="HardcodedText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="인증코드 입력"
                         tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -220,11 +223,10 @@
                 <Button
                     style="?attr/materialButtonOutlinedStyle"
                     android:id="@+id/okBtn"
-                    android:layout_width="104dp"
+                    android:layout_width="113dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="30dp"
                     android:text="인증 확인"
                     android:textColor="@color/black"
                     app:strokeColor="@color/blue"
