@@ -10,65 +10,72 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.8dp"
             android:background="#CCCCCC" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
             android:id="@+id/majorBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:gravity="left"
+            android:layout_margin="10dp"
+            android:layout_weight="0.8"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:text="@string/major"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_arrow_forward"
-            app:iconGravity="end"
-            app:iconTint="@color/black"
-            tools:ignore="RtlHardcoded" />
+            android:textSize="22sp"
+            app:strokeColor="@color/blue"
+            app:cornerRadius="9dp"
+            tools:ignore="VisualLintButtonSize" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC" />
-
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
             android:id="@+id/liberalArisBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:gravity="left"
+            android:layout_margin="10dp"
+            android:layout_weight="0.8"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:text="@string/liberalarts"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_arrow_forward"
-            app:iconGravity="end"
-            app:iconTint="@color/black"
-            tools:ignore="HardcodedText,RtlHardcoded" />
+            android:textSize="22sp"
+            app:strokeColor="@color/blue"
+            app:cornerRadius="9dp"
+            tools:ignore="VisualLintButtonSize" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC" />
-
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
             android:id="@+id/generalElectiveBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:gravity="left"
-            android:text="일선"
+            android:layout_margin="10dp"
+            android:layout_weight="0.8"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="일반선택"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_arrow_forward"
-            app:iconGravity="end"
-            app:iconTint="@color/black"
-            tools:ignore="HardcodedText,RtlHardcoded" />
+            android:textSize="22sp"
+            app:strokeColor="@color/blue"
+            app:cornerRadius="9dp"
+            tools:ignore="HardcodedText,VisualLintButtonSize" />
 
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            tools:ignore="UselessLeaf">
+        </LinearLayout>
+
     </LinearLayout>
 </layout>
