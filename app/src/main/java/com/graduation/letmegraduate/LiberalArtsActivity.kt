@@ -2,6 +2,9 @@ package com.graduation.letmegraduate
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -11,6 +14,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -44,21 +48,20 @@ class LiberalArtsActivity: AppCompatActivity() {
                 call: Call<GetSemesterListResponse>,
                 response: Response<GetSemesterListResponse>,
             ) {
-                val semesterList = response.body()?.semester
+                val semesterList = response.body()?.semester as MutableList<*>
 
                 var totalLachoiceCredit = 0 // lachoceCredit: 교양선택 학점
 
                 val adapter = ArrayAdapter(
-                    this@LiberalArtsActivity,
-                    android.R.layout.simple_list_item_1,
-                    semesterList as MutableList<*>
+                    this@LiberalArtsActivity, android.R.layout.simple_list_item_1, semesterList
                 )
+
                 binding.listSemester.setAdapter(adapter)
 
                 binding.listSemester.onItemClickListener =
                     object : AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
                         override fun onItemSelected(
-                            parent: AdapterView<*>?, view: View?, position: Int, id: Long,
+                            parent: AdapterView<*>?, view: View?, position: Int, id: Long
                         ) {
                             TODO("Not yet implemented")
                         }
@@ -68,7 +71,7 @@ class LiberalArtsActivity: AppCompatActivity() {
                         }
 
                         override fun onItemClick(
-                            parent: AdapterView<*>?, view: View?, position: Int, id: Long,
+                            parent: AdapterView<*>?, view: View?, position: Int, id: Long
                         ) {
                             val minorCredit = binding.minorCredit.text.toString()
                             if (minorCredit.isNotEmpty()) {
@@ -80,7 +83,8 @@ class LiberalArtsActivity: AppCompatActivity() {
                                 binding.scrollView.scrollTo(0, 0)
                             }
 
-                            val selectSemester = parent?.getItemAtPosition(position).toString()
+                            val selectSemester = parent?.getItemAtPosition(position).toString().substring(0,4) +
+                                    "_" + parent?.getItemAtPosition(position).toString().substring(6,7)
                             val data = SelesctedSemester(selectSemester)
 
                             val tableLayout = binding.tableLayout
@@ -132,6 +136,8 @@ class LiberalArtsActivity: AppCompatActivity() {
                                             val tableRow = TableRow(this@LiberalArtsActivity)
 
                                             val button = CheckBox(this@LiberalArtsActivity)
+                                            button.buttonTintList =
+                                                ContextCompat.getColorStateList(this@LiberalArtsActivity, R.color.black)
                                             // 버튼을 TableRow에 추가
                                             tableRow.addView(button)
 
@@ -158,7 +164,7 @@ class LiberalArtsActivity: AppCompatActivity() {
                                                 }
                                             }
                                             // "sub_name"의 값이 tableRow에서 마지막에 오도록 함
-                                            if (!tmp.isEmpty()) {
+                                            if (tmp.isNotEmpty()) {
                                                 // 공백을 추가하는 TextView 생성
                                                 val spaceTextView = TextView(this@LiberalArtsActivity)
                                                 spaceTextView.text = "       "
@@ -175,9 +181,35 @@ class LiberalArtsActivity: AppCompatActivity() {
                                             // 테이블 레이아웃에 TableRow 추가
                                             tableLayout.addView(tableRow)
 
+                                            binding.minorCredit.addTextChangedListener(object :
+                                                TextWatcher {
+                                                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                                                    // TextInputEdit의 Text를 변경하기 전에 호출되는 메서드
+                                                }
+
+                                                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                                                    // TextInputEdit의 Text를 변경할 때 호출되는 메서드
+                                                }
+
+                                                override fun afterTextChanged(s: Editable?) {
+                                                    if (!TextUtils.isEmpty(binding.minorCredit.text)) {
+                                                        // TextInputEdit의 Text를 변경한 후에 호출되는 메서드
+                                                        
+                                                        cnt++
+                                                        if ( cnt == 1 )
+                                                            count += cnt
+
+                                                        val message = "현재 수강한 교양 과목을 선택한 학기: $count/${semesterList.size}"
+                                                        binding.textView.text = message
+                                                    }
+                                                }
+                                            })
+
                                             // 체크박스 클릭 이벤트 설정
                                             button.setOnCheckedChangeListener { _, isChecked ->
                                                 if (isChecked) {
+                                                    button.buttonTintList =
+                                                        ContextCompat.getColorStateList(this@LiberalArtsActivity, R.color.blue)
                                                     selectedRows.add(map)
 
                                                     cnt++
@@ -185,6 +217,8 @@ class LiberalArtsActivity: AppCompatActivity() {
                                                         count += cnt
 
                                                 } else {
+                                                    button.buttonTintList =
+                                                        ContextCompat.getColorStateList(this@LiberalArtsActivity, R.color.black)
                                                     selectedRows.remove(map)
 
                                                     cnt--
@@ -237,17 +271,17 @@ class LiberalArtsActivity: AppCompatActivity() {
                                         binding.noticeLayout.visibility = View.VISIBLE
 
                                         val text = buildString {
-                                            if(!laCreditRSS!!) {
-                                                append(" ○ 최소 이수 학점까지 남은 교양 학점: ${30 - laCredit!!}")
+                                            if(!laCreditRSS!! && laCredit!! < 30) {
+                                                append(" ∘ 최소 이수 학점까지 남은 교양 학점: ${30 - laCredit}")
                                                 append("\n\n")
                                             }
                                             if (!lafSubjectRegistrationStatus!!){
-                                                append(" ○ 미수강한 기초교양 과목: $lafSubjectList")
+                                                append(" ∘ 미수강한 기초교양 과목: $lafSubjectList")
                                                 append("\n\n")
                                             }
                                             if (!lanSubjectRegistrationStatus!!){
-                                                append(" ○ 교양필수는 3개 이수영역 이상 이수해야 합니다.\n")
-                                                append(" ○ 미수강한 교양필수 과목: $lanSubjectList")
+                                                append(" ∘ 교양필수는 3개 이수영역 이상 이수해야 합니다.\n")
+                                                append(" ∘ 미수강한 교양필수 과목: $lanSubjectList")
                                             }
                                         }
                                         binding.noticeMassage.text = text

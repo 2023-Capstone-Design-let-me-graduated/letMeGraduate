@@ -11,6 +11,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -44,20 +45,17 @@ class MajorActivity: AppCompatActivity() {
             override fun onResponse(
                 call: Call<GetSemesterListResponse>, response: Response<GetSemesterListResponse>,
             ) {
-                val semesterList = response.body()?.semester
+                val semesterList = response.body()?.semester as MutableList<*>
 
                 val adapter = ArrayAdapter(
-                    this@MajorActivity, android.R.layout.simple_list_item_1, semesterList as MutableList<*>
+                    this@MajorActivity, android.R.layout.simple_list_item_1, semesterList
                 )
                 binding.listSemester.setAdapter(adapter)
 
                 binding.listSemester.onItemClickListener =
                     object : AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
                         override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long,
+                            parent: AdapterView<*>?, view: View?, position: Int, id: Long
                         ) {
                             TODO("Not yet implemented")
                         }
@@ -67,16 +65,14 @@ class MajorActivity: AppCompatActivity() {
                         }
 
                         override fun onItemClick(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long,
-                        ) {
+                            parent: AdapterView<*>?, view: View?, position: Int, id: Long
+                            ) {
                             binding.scrollView.post {
                                 binding.scrollView.scrollTo(0, 0)
                             }
 
-                            val selectSemester = parent?.getItemAtPosition(position).toString()
+                            val selectSemester = parent?.getItemAtPosition(position).toString().substring(0,4) +
+                                    "_" + parent?.getItemAtPosition(position).toString().substring(6,7)
 
                             val data = SelesctedSemester(selectSemester)
 
@@ -124,11 +120,14 @@ class MajorActivity: AppCompatActivity() {
                                         val tableLayout = binding.tableLayout
                                         tableLayout.removeAllViews() // TableRow를 다 제거함(초기화)
 
+
                                         for (map in majorSubjectList) {
                                             // 새로운 TableRow 생성
                                             val tableRow = TableRow(this@MajorActivity)
 
                                             val button = CheckBox(this@MajorActivity)
+                                            button.buttonTintList =
+                                                ContextCompat.getColorStateList(this@MajorActivity, R.color.black)
                                             // 버튼을 TableRow에 추가
                                             tableRow.addView(button)
 
@@ -155,7 +154,7 @@ class MajorActivity: AppCompatActivity() {
                                                 }
                                             }
                                             // key가 "sub_name"인 값(value)이 tableRow에서 마지막에 오도록 함
-                                            if (!tmp.isEmpty()) {
+                                            if (tmp.isNotEmpty()) {
                                                 // 공백을 추가하는 TextView 생성
                                                 val spaceTextView = TextView(this@MajorActivity)
                                                 spaceTextView.text = "     "
@@ -174,19 +173,25 @@ class MajorActivity: AppCompatActivity() {
 
                                             // 체크박스 클릭 이벤트 설정
                                             button.setOnCheckedChangeListener { _, isChecked ->
-                                                if (isChecked) {
+                                                if (isChecked) {button.buttonTintList =
+                                                    ContextCompat.getColorStateList(this@MajorActivity, R.color.blue)
                                                     selectedRows.add(map)
-                                                    Log.d("Tets", map.toString())
 
                                                     cnt++
                                                     if ( cnt == 1 )
                                                         count += cnt
 
-                                                    val message = "현재 수강한 전공 과목을 선택한 학기: $count/${semesterList.size}"
-                                                    binding.textView.text = message
                                                 } else {
+                                                    button.buttonTintList =
+                                                        ContextCompat.getColorStateList(this@MajorActivity, R.color.black)
                                                     selectedRows.remove(map)
+
+                                                    cnt--
+                                                    if (cnt == 0)
+                                                        count--
                                                 }
+                                                val message = "현재 수강한 교양 과목을 선택한 학기: $count/${semesterList.size}"
+                                                binding.textView.text = message
                                             }
                                         }
                                     }
@@ -206,7 +211,7 @@ class MajorActivity: AppCompatActivity() {
 
                 binding.okBtn.setOnClickListener {
                     val data = SelectedMajorSubjects(selectedRows)
-                    if (count >= 8) {
+                    if (count >= 0) {
                         service.majorput(data).enqueue(object: Callback<JsonObject> {
                             override fun onResponse(call: Call<JsonObject>,
                                                     response: Response<JsonObject>,
@@ -225,17 +230,17 @@ class MajorActivity: AppCompatActivity() {
 
                                         val text = buildString {
                                             if (!csSubjectRegistrationStatus!!){
-                                                append(" ○ 캡스톤디지인(1), 캡스톤디자인(2) 과목은 필수로 수강해야 합니다.")
+                                                append(" ∘ 캡스톤디지인(1), 캡스톤디자인(2) 과목은 필수로 수강해야 합니다.")
                                                 append("\n\n")
                                             }
-                                            if (!mCreditRSS!!){
-                                                append(" ○ 최소 이수 학점까지 남은 전공 학점: ${72 - majorCredit!!}")
+                                            if (!mCreditRSS!! && majorCredit!! < 72){
+                                                append(" ∘ 최소 이수 학점까지 남은 전공 학점: ${72 - majorCredit}")
                                                 append("\n\n")
 
                                             }
                                             if (!mnRequirementSatisfacionStatus!!){
-                                                append(" ○ 최소 이수 학점까지 남은 전공필수 학점: ${19 - mnCredit!!}\n")
-                                                append(" ○ 미수강한 전공 필수 과목: $mnSubjectList")
+                                                append(" ∘ 최소 이수 학점까지 남은 전공필수 학점: ${19 - mnCredit!!}\n")
+                                                append(" ∘ 미수강한 전공 필수 과목: $mnSubjectList")
                                             }
                                         }
                                         binding.noticeMassage.text = text
