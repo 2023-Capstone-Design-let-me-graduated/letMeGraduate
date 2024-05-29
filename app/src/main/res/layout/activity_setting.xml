@@ -37,8 +37,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#B1B0B0" />
+                android:layout_height="0.8dp"
+                android:background="#CCCCCC" />
 
             <Button
                 android:id="@+id/noticeBtn"
@@ -46,17 +46,17 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
                 android:gravity="left"
-                android:text="공지사항"
+                android:text="@string/notice"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:icon="@drawable/ic_arrow_forward"
                 app:iconGravity="end"
                 app:iconTint="@color/black"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                tools:ignore="HardcodedText,RtlHardcoded,VisualLintButtonSize" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.8dp"
                 android:background="#CCCCCC" />
 
             <Button
@@ -71,10 +71,11 @@
                 app:icon="@drawable/ic_arrow_forward"
                 app:iconGravity="end"
                 app:iconTint="@color/black"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                tools:ignore="HardcodedText,RtlHardcoded,VisualLintButtonSize" />
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="0.8dp"
                 android:background="#CCCCCC" />
 
             <Button
@@ -89,11 +90,11 @@
                 app:icon="@drawable/ic_arrow_forward"
                 app:iconGravity="end"
                 app:iconTint="@color/black"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                tools:ignore="HardcodedText,RtlHardcoded,VisualLintButtonSize" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.8dp"
                 android:background="#CCCCCC" />
 
         </LinearLayout>

@@ -27,6 +27,13 @@ class SettingActivity : AppCompatActivity() {
         actionbar!!.setDisplayShowTitleEnabled(false)
         actionbar.setDisplayHomeAsUpEnabled(true) // 액션바에 뒤로가기 버튼 추가
 
+        // 공지사항 버튼 클릭 시
+        binding.noticeBtn.setOnClickListener {
+            // 공지사항 화면으로 이동
+            intent = Intent(this@SettingActivity, NoticeActivity::class.java)
+            startActivity(intent)
+        }
+
         // 로그아웃 버튼 클릭 시
         binding.logoutBtn.setOnClickListener {
             service.userLogout().enqueue(object: Callback<Void> {

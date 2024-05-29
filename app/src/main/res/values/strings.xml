@@ -22,10 +22,6 @@
     </string-array>
     <string name="major">전공</string>
     <string name="liberalarts">교양</string>
-    <string name="setting">설정</string>
-    <string name="withdrawal_message">
-        탈퇴 버튼 선택 시, 회원님의 계정은 삭제되며 복구되지 않습니다.
-    </string>
     <string name="ok">확인</string>
     <string-array name="certificate_kind">
         <item>TOEIC</item>
@@ -36,4 +32,9 @@
         <item>TOEIC WRITING</item>
         <item>OPIC</item>
     </string-array>
+    <string name="setting">설정</string>
+    <string name="withdrawal_message">
+        탈퇴 버튼 선택 시, 회원님의 계정은 삭제되며 복구되지 않습니다.
+    </string>
+    <string name="notice">공지사항</string>
 </resources>
